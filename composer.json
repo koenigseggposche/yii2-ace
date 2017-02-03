@@ -1,0 +1,23 @@
+{
+    "name": "koenigseggposche/yii2-ace",
+    "description": "Yii2 Ace Editor widget",
+    "keywords": ["yii", "aceeditor", "code editor"],
+    "type": "yii2-extension",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "liwei",
+            "email": "koenigseggposche@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "yiisoft/yii2": "^2.0.0",
+        "bower-asset/ace-builds": "^1.2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "koenigseggposche\\yii2ace\\": "src"
+        }
+    }
+}
