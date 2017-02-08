@@ -19,6 +19,16 @@ class AceEditor extends InputWidget
     public $mode = 'html';
 
     /**
+     * @var array Editor options
+     */
+    public $aceOptions = [];
+
+    /**
+     * @var array ace extensions
+     */
+    public $extensions = [];
+
+    /**
      * @var string Editor theme
      * $see Themes List
      * @link https://github.com/ajaxorg/ace/tree/master/lib/ace/theme
@@ -33,17 +43,25 @@ class AceEditor extends InputWidget
     ];
 
     /**
+     * @var string js
+     */
+    public $js = '';
+
+    /**
      * @inheritdoc
      */
     public function init()
     {
         parent::init();
-        AceEditorAsset::register($this->getView());
+        AceEditorAsset::register($this->getView(), $this->extensions);
         $editor_id = $this->getId();
         $editor_var = 'aceeditor_' . $editor_id;
         $this->getView()->registerJs("var {$editor_var} = ace.edit(\"{$editor_id}\")");
         $this->getView()->registerJs("{$editor_var}.setTheme(\"ace/theme/{$this->theme}\")");
         $this->getView()->registerJs("{$editor_var}.getSession().setMode(\"ace/mode/{$this->mode}\")");
+        if ($this->aceOptions) {
+            $this->getView()->registerJs("{$editor_var}.setOptions(" . json_encode($this->aceOptions) . ")");
+        }
 
         $textarea_var = 'acetextarea_' . $editor_id;
         $this->getView()->registerJs("
@@ -56,6 +74,10 @@ class AceEditor extends InputWidget
         Html::addCssStyle($this->options, 'display: none');
         $this->containerOptions['id'] = $editor_id;
         $this->getView()->registerCss("#{$editor_id}{position:relative}");
+
+        if ($this->js) {
+            $this->getView()->registerJs($this->js);
+        }
     }
 
     /**
